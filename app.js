@@ -8,6 +8,7 @@ const hbs = require("hbs");
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
 var travelRouter = require('./app_server/routes/travel');
+const { index } = require('./app_server/controllers/main');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/index', indexRouter)
 app.use('/users', usersRouter);
 app.use('/travel', travelRouter);
 // catch 404 and forward to error handler
