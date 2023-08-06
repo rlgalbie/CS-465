@@ -36,7 +36,6 @@ private getTrips(): void {
  this.trips = foundTrips;
  });
 }
-
 ngOnInit(): void {
  this.getTrips();
 }
