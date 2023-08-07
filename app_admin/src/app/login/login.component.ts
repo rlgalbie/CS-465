@@ -24,7 +24,11 @@ export class LoginComponent implements OnInit {
     if (!this.credentials.email || !this.credentials.password) {
       this.formError = 'All fields are required, please try again';
     } else {
+<<<<<<< HEAD
       this.doLogin();//test
+=======
+      this.doLogin();
+>>>>>>> c646b5cfbb76121c7f266777969fea029e6cdd31
     }
   }
   private doLogin(): void {
