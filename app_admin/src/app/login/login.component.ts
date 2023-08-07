@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
   private doLogin(): void {
     this.authenticationService.login(this.credentials)
-      .then(() => this.router.navigateByUrl('#'))
+      .then(() => this.router.navigateByUrl('list-trips')) //I changed this so that it goes to the trips page instead of the # page
       .catch((message) => this.formError = message);
   }
 }
