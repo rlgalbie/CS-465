@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+//import { Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthResponse } from '../models/authresponse';
 import { BROWSER_STORAGE } from '../storage';
 import { Trip } from '../models/trip';
@@ -9,7 +10,7 @@ import { User } from '../models/user';
 @Injectable()
 export class TripDataService {
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
     @Inject(BROWSER_STORAGE) private storage: Storage) { }
 
   private apiBaseUrl = 'http://localhost:3000/api/';
@@ -20,7 +21,7 @@ export class TripDataService {
     return this.http
       .get(`${this.tripUrl}`)
       .toPromise()
-      .then(response => response.json() as Trip[])
+      .then(response => response as Trip[])
       .catch(this.handleError);
   }
   
@@ -29,26 +30,36 @@ export class TripDataService {
     return this.http
     .get(this.tripUrl + tripCode)
     .toPromise()
-    .then(response => response.json() as Trip)
+    .then(response => response as Trip)
     .catch(this.handleError);
    }
    
   public addTrip(formData: Trip): Promise<Trip> {
     console.info('Inside TripDataService#addTrip');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization':`Bearer ${this.storage.getItem('travlr-token')}`
+      })
+    };
     return this.http
-      .post(`${this.apiBaseUrl}trips`, formData)
+      .post(`${this.apiBaseUrl}trips`, formData, httpOptions)
       .toPromise()
-      .then(response => response.json() as Trip[])
+      .then(response => response as Trip[])
       .catch(this.handleError);
   }
   
   public updateTrip(formData: Trip): Promise<Trip> {
     console.log('Inside TripDataService#upateTrip');
     console.log(formData);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization':`Bearer ${this.storage.getItem('travlr-token')}`
+      })
+    };
     return this.http
-    .put(this.tripUrl + formData.code, formData)
+    .put(this.tripUrl + formData.code, formData, httpOptions)
     .toPromise()
-    .then(response => response.json() as Trip[])
+    .then(response => response as Trip[])
     .catch(this.handleError);
    }
    
@@ -68,7 +79,7 @@ export class TripDataService {
      return this.http
      .post(url, user)
      .toPromise()
-     .then(response => response.json() as AuthResponse)
+     .then(response => response as AuthResponse)
      .catch(this.handleError);
     }
     
